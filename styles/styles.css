@@ -4,6 +4,10 @@ body {
   padding: 0;
   overflow: hidden;
 }
-object {
+object,
+iframe {
   height: 100vh;
+}
+iframe {
+  width: 100vw;
 }
