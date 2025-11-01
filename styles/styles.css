@@ -1,45 +1,59 @@
-/* --- BASE STYLES (Keeps full-screen behavior, removes restrictive 'overflow: hidden' from body) --- */
+/* --- BASE/RESET STYLES (Set up the full page container) --- */
+html,
+body {
+  /* Ensures 100% height is relative to the viewport/browser window */
+  height: 100%;
+  width: 100%;
+}
+
 body {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  /* FIX: Changed 'overflow: hidden' to 'overflow-y: auto' 
-     to allow the main document body to scroll if needed, 
-     resolving the scroll lock issue on mobile. */
-  overflow-y: auto; 
+  /* Allows the main body to scroll if needed, resolving potential lock issues */
+  overflow-y: auto;
+  font-family: Arial, sans-serif;
 }
 
+/* --- PDF EMBED STYLES --- */
 object,
-iframe {
-  height: 100vh;
-  width: 100vw;
-  /* The PDF viewer itself is still set to scroll internally */
-  -webkit-overflow-scrolling: touch; 
+embed { 
+  /* Using 100% is more reliable than 100vw/100vh when html/body are set to height: 100% */
+  height: 100%;
+  width: 100%;
+  /* These are good for touch devices, allowing internal PDF scrolling */
+  -webkit-overflow-scrolling: touch;
   overflow: scroll; 
 }
 
-/* --- ENHANCED MOBILE FALLBACK STYLES --- */
+/* --- MOBILE-FIRST: Default State (Mobile Fallback is ON, PDF Embed is OFF) --- */
+.desktop {
+  /* Hides the object/embed by default for small screens */
+  display: none;
+}
 #mobile-fallback {
-  /* Layout and Sizing */
+  /* Sets the default display to show the fallback content */
   display: flex;
+  
+  /* Layout and Sizing */
+  box-sizing: border-box;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100vh; /* Use vh here to ensure it fills the viewport on mobile */
   padding: 20px;
-  
-  /* FIX: Added overflow-y: auto to ensure the fallback content can scroll 
-     if the device is small or content is zoomed/expanded. */
+
+  /* Ensures fallback content can scroll if the device is small */
   overflow-y: auto;
-  -webkit-overflow-scrolling: touch; 
-  
+  -webkit-overflow-scrolling: touch;
+
   /* Color and Typography */
   background-color: #ffffff; /* Clean White Background */
   color: #1a237e; /* Deep Blue Text */
   text-align: center;
-  font-family: Arial, sans-serif;
 }
 
+/* --- ENHANCED MOBILE FALLBACK STYLES --- */
 #doc-icon {
   font-size: 80px; /* Large Icon */
   margin-bottom: 20px;
@@ -71,8 +85,23 @@ iframe {
   transition: background-color 0.2s, transform 0.2s;
 }
 
+#mobile-fallback a:hover {
+  /* Add hover for desktop users who might see the fallback (e.g., zoom out) */
+  background-color: #e6b800; 
+}
+
 #mobile-fallback a:active {
   background-color: #e6b800; /* Darker gold when tapped */
   transform: translateY(1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Media query for screens larger than 600px (desktop/tablet) */
+@media (min-width: 601px) {
+  .desktop {
+    display: block; /* Show the PDF viewer */
+  }
+  #mobile-fallback {
+    display: none; /* Hide the fallback */
+  }
 }
