@@ -1,16 +1,21 @@
-/* --- BASE STYLES (Keep the full-screen behavior) --- */
+/* --- BASE STYLES (Keeps full-screen behavior, removes restrictive 'overflow: hidden' from body) --- */
 body {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  /* FIX: Changed 'overflow: hidden' to 'overflow-y: auto' 
+     to allow the main document body to scroll if needed, 
+     resolving the scroll lock issue on mobile. */
+  overflow-y: auto; 
 }
+
 object,
 iframe {
   height: 100vh;
-  width: 100vw; /* Added width to iframe, apply to object/iframe for consistency */
-  -webkit-overflow-scrolling: touch; /* Forces native, inertial scrolling */
-  overflow: scroll; /* Ensures the scroll mechanism is available */
+  width: 100vw;
+  /* The PDF viewer itself is still set to scroll internally */
+  -webkit-overflow-scrolling: touch; 
+  overflow: scroll; 
 }
 
 /* --- ENHANCED MOBILE FALLBACK STYLES --- */
@@ -22,6 +27,11 @@ iframe {
   align-items: center;
   height: 100vh;
   padding: 20px;
+  
+  /* FIX: Added overflow-y: auto to ensure the fallback content can scroll 
+     if the device is small or content is zoomed/expanded. */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; 
   
   /* Color and Typography */
   background-color: #ffffff; /* Clean White Background */
